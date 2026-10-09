@@ -1,0 +1,191 @@
+/* =========================================================
+   ICA8 shared stylesheet
+   Each page's <body> has a class (grid-page, flex-page,
+   rwd-page) so the rules for one page don't affect the others.
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   GRID PAGE: CSS grids 2
+   ========================================================= */
+.grid-page {
+  font: 1.2em / 1.5 sans-serif;
+}
+
+.grid > * {
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.5em;
+}
+
+.item1 {
+  background-color: rgb(74 102 112 / 70%);
+  border: 5px solid rgb(74 102 112 / 100%);
+}
+
+.item2 {
+  background-color: rgb(214 162 173 / 70%);
+  border: 5px solid rgb(214 162 173 / 100%);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px 100px;
+  gap: 10px;
+}
+
+/* My answer: each item spans several tracks and they overlap */
+.item1 {
+  grid-column: 1 / 4;  /* column lines 1 to 4 = 3 columns */
+  grid-row: 1 / 3;     /* row lines 1 to 3 = 2 rows */
+  /* z-index: 1;  Bonus: uncomment this to put item 1 on top */
+}
+
+.item2 {
+  grid-column: 2 / 5;
+  grid-row: 2 / 4;
+}
+
+/* =========================================================
+   FLEXBOX PAGE: Flexbox 2
+   ========================================================= */
+.flex-page {
+  font: 1.2em / 1.5 sans-serif;
+}
+
+.flex-page ul {
+  max-width: 750px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flex-page li {
+  background-color: #4d7298;
+  border: 2px solid #77a6b6;
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.5em;
+}
+
+/* My answer */
+.flex-page ul {
+  display: flex;       /* puts the items in a row */
+}
+
+.flex-page li {
+  flex: 1;             /* each item gets an equal share of the width */
+}
+
+.flex-page li:first-child {
+  flex: 2;             /* bonus: first item is twice as wide */
+}
+
+/* =========================================================
+   RESPONSIVE PAGE: RWD task (mobile-first)
+   ========================================================= */
+.rwd-page {
+  font: 1.2em / 1.4 Arial, Helvetica, sans-serif;
+  padding: 0 0 1em;
+}
+
+.rwd-page header {
+  background-color: #333;
+  color: #fff;
+  border: 5px solid #000;
+}
+
+.rwd-page header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rwd-page header a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 0.5em 1em;
+  border-top: 1px solid #999;
+}
+
+.rwd-page header .title {
+  font-size: 150%;
+  font-style: italic;
+  font-weight: bold;
+  padding: 1em;
+}
+
+.rwd-page main {
+  padding: 0 1em;
+}
+
+.rwd-page .cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rwd-page .cards li {
+  border: 5px solid #000;
+  margin-bottom: 1em;
+}
+
+.rwd-page .cards h2 {
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  padding: 0.5em 1em;
+}
+
+.rwd-page .cards .inner {
+  padding: 0.5em 1em;
+}
+
+.rwd-page .sidebar {
+  background-color: #333;
+  border: 5px solid #000;
+  padding: 0.5em 1em;
+  color: #fff;
+}
+
+/* My answer: desktop layout once the screen is wide enough */
+@media screen and (min-width: 50em) {
+  /* nav links in a row */
+  .rwd-page header ul {
+    display: flex;
+  }
+
+  .rwd-page header li {
+    flex: 1;
+  }
+
+  /* article and sidebar side by side */
+  .rwd-page main {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2em;
+  }
+
+  /* cards in two columns */
+  .rwd-page .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+  }
+
+  .rwd-page .cards li {
+    margin-bottom: 0;
+  }
+}
+
+/* Second breakpoint: three card columns on large screens */
+@media screen and (min-width: 70em) {
+  .rwd-page .cards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
