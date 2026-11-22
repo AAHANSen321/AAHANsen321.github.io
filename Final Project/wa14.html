@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack a Digit - Design System</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        :root {
+            /* Color Palette - 5 Core Colors */
+            --color-primary: #3A7D44;     /* Grass Green - Main Brand Color */
+            --color-secondary: #5C3D2E;   /* Dirt Brown - Complementary Color */
+            --color-accent: #D7263D;      /* Hammer Red - Highlight / Warning Color */
+            --color-neutral: #1B1B3A;     /* Night Navy - Neutral Text Color */
+            --color-highlight: #FFF8E7;   /* Cream - Background Color */
+
+            /* Derived Colors for Flexibility */
+            --color-primary-dark: #2C5F34;
+            --color-accent-dark: #A81D30;
+            --color-background: var(--color-highlight);
+            --color-text-dark: var(--color-neutral);
+            --color-text-light: var(--color-highlight);
+
+            /* Typography */
+            --font-primary: 'Luckiest Guy', 'Arial Black', sans-serif;
+            --font-secondary: 'Nunito', Arial, sans-serif;
+
+            /* Spacing System */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            line-height: 1.6;
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+            padding: var(--spacing-lg);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Typography Styles */
+        h1, h2, h3 {
+            font-family: var(--font-primary);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+        }
+
+        h1 {
+            font-size: 2.441rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-accent);
+        }
+
+        h2 {
+            font-size: 1.953rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        h3 {
+            font-size: 1.563rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-secondary);
+        }
+
+        .body-text {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .small-text {
+            font-size: 0.8rem;
+            color: var(--color-secondary);
+        }
+
+        /* Color Palette Section */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: var(--spacing-sm);
+        }
+
+        .color-swatch {
+            padding: var(--spacing-md) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            border: 3px solid var(--color-neutral);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .swatch-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+        }
+
+        .swatch-secondary {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+        }
+
+        .swatch-accent {
+            background-color: var(--color-accent);
+            color: var(--color-text-light);
+        }
+
+        .swatch-neutral {
+            background-color: var(--color-neutral);
+            color: var(--color-text-light);
+        }
+
+        .swatch-highlight {
+            background-color: var(--color-highlight);
+            color: var(--color-text-dark);
+        }
+
+        /* Component Styles */
+        .component-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .button {
+            display: inline-block;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+            padding: var(--spacing-xs) var(--spacing-md);
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            text-decoration: none;
+            border: 3px solid var(--color-neutral);
+            border-radius: var(--radius-lg);
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .button:hover {
+            background-color: var(--color-primary-dark);
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+            background-color: var(--color-accent);
+        }
+
+        .link {
+            color: var(--color-primary);
+            font-weight: 700;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover {
+            color: var(--color-accent);
+            text-decoration-thickness: 3px;
+        }
+
+        .link:visited,
+        .link-visited {
+            color: var(--color-secondary);
+        }
+
+        .button:focus-visible,
+        .link:focus-visible {
+            outline: 4px solid var(--color-neutral);
+            outline-offset: 3px;
+        }
+
+        /* Spacing Demonstration */
+        .spacing-demo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .spacing-block {
+            background-color: var(--color-primary);
+            height: 50px;
+        }
+
+        .size-xs { width: var(--spacing-xs); }
+        .size-sm { width: var(--spacing-sm); }
+        .size-md { width: var(--spacing-md); }
+        .size-lg { width: var(--spacing-lg); }
+        .size-xl { width: var(--spacing-xl); }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Whack a Digit - Design System</h1>
+
+        <section>
+            <h2>Color Palette</h2>
+            <div class="color-palette">
+                <div class="color-swatch swatch-primary">
+                    <strong>Primary Color</strong>
+                    <p>#3A7D44</p>
+                    <small>Contrast Ratio: 4.73:1</small>
+                </div>
+                <div class="color-swatch swatch-secondary">
+                    <strong>Secondary Color</strong>
+                    <p>#5C3D2E</p>
+                    <small>Contrast Ratio: 9.17:1</small>
+                </div>
+                <div class="color-swatch swatch-accent">
+                    <strong>Accent Color</strong>
+                    <p>#D7263D</p>
+                    <small>Contrast Ratio: 4.68:1</small>
+                </div>
+                <div class="color-swatch swatch-neutral">
+                    <strong>Neutral Color</strong>
+                    <p>#1B1B3A</p>
+                    <small>Contrast Ratio: 15.68:1</small>
+                </div>
+                <div class="color-swatch swatch-highlight">
+                    <strong>Highlight Color</strong>
+                    <p>#FFF8E7</p>
+                    <small>Contrast Ratio: 15.68:1</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Typography</h2>
+            <h1>Heading 1 - Luckiest Guy</h1>
+            <h2>Heading 2 - Luckiest Guy</h2>
+            <h3>Heading 3 - Luckiest Guy</h3>
+            <p class="body-text">Body Text - Using Nunito with a comfortable line height and readable size.</p>
+            <p class="small-text">Small Text - Used for hints and small notes in the game.</p>
+        </section>
+
+        <section>
+            <h2>Spacing System</h2>
+            <div class="spacing-demo">
+                <div class="spacing-block size-xs"></div>
+                <div class="spacing-block size-sm"></div>
+                <div class="spacing-block size-md"></div>
+                <div class="spacing-block size-lg"></div>
+                <div class="spacing-block size-xl"></div>
+            </div>
+            <p>Spacing blocks from xs to xl: 8px, 16px, 24px, 32px, 48px</p>
+        </section>
+
+        <section>
+            <h2>Interactive Components</h2>
+            <div class="component-row">
+                <a href="#" class="button">Primary Button</a>
+                <a href="#" class="link">Standard Link</a>
+                <a href="#" class="link link-visited">Visited Link</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
