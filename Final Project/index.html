@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whack a Digit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Whack a Digit</h1>
+    <p>Enter your phone number the hard way. Whack each digit as it pops up!</p>
+  </header>
+
+  <main>
+
+    <section class="panel">
+      <h2>Your Number</h2>
+      <p id="phone-display">(___) ___-____</p>
+      <button type="button" id="delete-btn">Delete Last Digit</button>
+      <button type="button" id="submit-btn">Submit Number</button>
+      <p id="message">Three digits pop up at a time. Be quick!</p>
+    </section>
+
+    <section class="field">
+      <h2>The Field</h2>
+      <div id="holes">
+        <button type="button" class="hole"><span>1</span></button>
+        <button type="button" class="hole is-up"><span>7</span></button>
+        <button type="button" class="hole"><span>3</span></button>
+        <button type="button" class="hole is-up"><span>0</span></button>
+        <button type="button" class="hole"><span>5</span></button>
+        <button type="button" class="hole"><span>6</span></button>
+        <button type="button" class="hole"><span>2</span></button>
+        <button type="button" class="hole"><span>8</span></button>
+        <button type="button" class="hole is-up"><span>4</span></button>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
