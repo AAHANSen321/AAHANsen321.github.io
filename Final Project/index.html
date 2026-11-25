@@ -4,39 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Whack a Digit</title>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Fonts from the style guide: Luckiest Guy (headings) + Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Your JavaScript goes in js/script.js. -->
+  <script src="js/script.js" defer></script>
 </head>
 <body>
 
-  <header>
-    <h1>Whack a Digit</h1>
-    <p>Enter your phone number the hard way. Whack each digit as it pops up!</p>
-  </header>
 
-  <main>
 
-    <section class="panel">
-      <h2>Your Number</h2>
-      <p id="phone-display">(___) ___-____</p>
-      <button type="button" id="delete-btn">Delete Last Digit</button>
-      <button type="button" id="submit-btn">Submit Number</button>
-      <p id="message">Three digits pop up at a time. Be quick!</p>
+  <main class="game">
+
+    <header class="game__header">
+      <h1 class="game__title">Whack a Digit</h1>
+      <p class="game__subtitle">Whack the numbers to enter your phone number</p>
+    </header>
+
+    <!-- Phone number + undo: side by side on laptop, stacked on phone -->
+    <section class="entry" aria-label="Phone number">
+      <label class="visually-hidden" for="phone-display">Your phone number</label>
+      <input
+        type="text"
+        id="phone-display"
+        class="entry__display"
+        name="phone"
+        value=""
+        placeholder="(___) ___-____"
+        readonly
+        tabindex="-1"
+      >
+
+      <button type="button" id="undo-btn" class="entry__undo">
+        <span aria-hidden="true">&larr;</span> Undo last digit
+      </button>
     </section>
 
-    <section class="field">
-      <h2>The Field</h2>
-      <div id="holes">
-        <button type="button" class="hole"><span>1</span></button>
-        <button type="button" class="hole is-up"><span>7</span></button>
-        <button type="button" class="hole"><span>3</span></button>
-        <button type="button" class="hole is-up"><span>0</span></button>
-        <button type="button" class="hole"><span>5</span></button>
-        <button type="button" class="hole"><span>6</span></button>
-        <button type="button" class="hole"><span>2</span></button>
-        <button type="button" class="hole"><span>8</span></button>
-        <button type="button" class="hole is-up"><span>4</span></button>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <!-- The 3x3 grid of holes -->
+    <section id="game-board" class="board" aria-label="Whack a digit game board">
+
+      <div class="hole" data-hole="0">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
       </div>
+      <div class="hole" data-hole="1">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+      <div class="hole" data-hole="2">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+
+      <div class="hole" data-hole="3">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+      <div class="hole" data-hole="4">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+      <div class="hole" data-hole="5">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+
+      <div class="hole" data-hole="6">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+      <div class="hole" data-hole="7">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+      <div class="hole" data-hole="8">
+        <button type="button" class="digit" data-digit="" tabindex="-1"></button>
+      </div>
+
     </section>
 
   </main>

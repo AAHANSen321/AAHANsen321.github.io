@@ -1,0 +1,307 @@
+/* ==========================================================
+   WHACK A DIGIT
+   Sections:
+     1. Variables (colors, fonts, spacing from the style guide)
+     2. Base
+     3. Header
+     4. Phone number display + undo button
+     5. Game board, holes, digits
+     6. State classes for JavaScript
+     7. Laptop layout (wide screens)
+     8. Reduced motion
+   Built mobile-first: the default styles are the 400px phone
+   layout, and section 7 adjusts it for the 1200px laptop layout.
+   ========================================================== */
+
+/* ---------- 1. Variables ---------- */
+:root {
+  /* Colors */
+  --primary: #3A7D44;     /* grass green */
+  --secondary: #5C3D2E;   /* dirt brown */
+  --accent: #D7263D;      /* red */
+  --neutral: #1B1B3A;     /* dark navy */
+  --highlight: #FFF8E7;   /* cream */
+
+  /* Fonts */
+  --font-heading: "Luckiest Guy", "Arial Black", sans-serif;
+  --font-body: "Nunito", Arial, sans-serif;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+
+  /* Hammer cursors (inline SVG, so no image files are needed).
+     The second one is tilted and is used while the mouse is pressed. */
+  --cursor-hammer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg transform='rotate(-30 24 24)'%3E%3Crect x='21' y='18' width='6' height='28' rx='3' fill='%235C3D2E' stroke='%231B1B3A' stroke-width='2'/%3E%3Crect x='6' y='4' width='36' height='18' rx='5' fill='%23D7263D' stroke='%231B1B3A' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E") 12 14, pointer;
+  --cursor-hammer-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg transform='rotate(-75 24 24)'%3E%3Crect x='21' y='18' width='6' height='28' rx='3' fill='%235C3D2E' stroke='%231B1B3A' stroke-width='2'/%3E%3Crect x='6' y='4' width='36' height='18' rx='5' fill='%23D7263D' stroke='%231B1B3A' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E") 8 30, pointer;
+}
+
+/* ---------- 2. Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--highlight);
+  background-color: var(--primary);
+}
+
+.game {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-sm) var(--space-lg);
+}
+
+/* Hides text visually but keeps it for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- 3. Header ---------- */
+.game__header {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.game__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: var(--highlight);
+  text-shadow: 3px 3px 0 var(--neutral);
+}
+
+.game__subtitle {
+  margin: var(--space-xs) 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ---------- 4. Phone number display + undo button ---------- */
+.entry {
+  display: flex;
+  flex-direction: column;      /* stacked on phone */
+  gap: var(--space-sm);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.entry__display,
+.entry__undo {
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-xs) var(--space-sm);
+  border: 4px solid var(--neutral);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 800;
+}
+
+.entry__display {
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--neutral);
+  background-color: var(--highlight);
+  cursor: default;
+}
+
+.entry__display::placeholder {
+  color: var(--neutral);
+  opacity: 0.6;
+}
+
+.entry__display:focus {
+  outline: none;
+}
+
+.entry__undo {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--highlight);
+  background-color: var(--accent);
+  box-shadow: 0 4px 0 var(--neutral);
+  cursor: pointer;
+}
+
+.entry__undo:hover {
+  filter: brightness(1.1);
+}
+
+.entry__undo:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.entry__undo:focus-visible {
+  outline: 3px solid var(--highlight);
+  outline-offset: 3px;
+}
+
+.entry__undo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  min-height: 1.5em;           /* keeps its space so the board doesn't jump */
+  margin: var(--space-xs) 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---------- 5. Game board, holes, digits ---------- */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--space-sm);
+  background-color: var(--secondary);
+  border: 4px solid var(--neutral);
+  border-radius: var(--space-md);
+  cursor: var(--cursor-hammer);
+  user-select: none;                    /* no text highlighting while whacking */
+  -webkit-user-select: none;
+  touch-action: manipulation;           /* no double-tap zoom on phones */
+}
+
+.board:active {
+  cursor: var(--cursor-hammer-down);
+}
+
+.hole {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;                     /* hides the digit while it is "underground" */
+  background-color: var(--neutral);
+  border-radius: 50%;
+  box-shadow: inset 0 8px 0 rgba(0, 0, 0, 0.45);
+}
+
+.digit {
+  position: absolute;
+  inset: 12%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  line-height: 1;
+  color: var(--neutral);
+  background-color: var(--highlight);
+  border: 4px solid var(--primary);
+  border-radius: 50%;
+  cursor: inherit;                      /* keep the hammer cursor */
+
+  /* Hidden by default: pushed down out of the hole */
+  transform: translateY(130%);
+  pointer-events: none;
+  transition: transform 0.15s ease-out;
+}
+
+/* ---------- 6. State classes for JavaScript ---------- */
+
+/* Digit pops up and becomes clickable */
+.hole.is-up .digit {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Digit was hit */
+.hole.is-whacked .digit {
+  color: var(--highlight);
+  background-color: var(--accent);
+  border-color: var(--highlight);
+  transform: scale(1.1, 0.7);
+  pointer-events: none;
+}
+
+/* All 10 digits entered */
+.entry__display.is-complete {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--highlight);
+}
+
+/* Shake the display: add the class, remove it after 400ms */
+.entry__display.is-shaking {
+  animation: shake 0.4s linear;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-8px); }
+  50%      { transform: translateX(8px); }
+  75%      { transform: translateX(-6px); }
+}
+
+/* ---------- 7. Laptop layout (wide screens) ---------- */
+@media (min-width: 768px) {
+  .game {
+    padding: var(--space-lg) var(--space-md) var(--space-xl);
+  }
+
+  .game__header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .game__title {
+    font-size: 4rem;
+    text-shadow: 4px 4px 0 var(--neutral);
+  }
+
+  .game__subtitle {
+    font-size: 1.25rem;
+  }
+
+  /* Display and undo button sit side by side, like the laptop sketch */
+  .entry {
+    flex-direction: row;
+    max-width: 760px;
+  }
+
+  .entry__display {
+    flex: 3;
+    font-size: 1.75rem;
+  }
+
+  .entry__undo {
+    flex: 2;
+  }
+
+  .board {
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+
+  .digit {
+    font-size: 3.5rem;
+  }
+}
+
+/* ---------- 8. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .digit {
+    transition: none;
+  }
+
+  .entry__display.is-shaking {
+    animation: none;
+  }
+}
